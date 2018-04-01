@@ -1,7 +1,7 @@
 <!doctype html>
 <html itemscope='' itemtype='http://schema.org/SearchResultsPage' lang='ru'		  >
 <head											  >
-<meta content='text/html; charset=windows-1251'		http-equiv='Content-Type'	 />
+<meta content='text/html; charset=utf-8'		http-equiv='Content-Type'	 />
 <meta content='ru-RU'					http-equiv='Content-Language'	 />
 <meta content='keyboard,illumination,led,leds,effect,effects,fx,braile'	name='keywords'	 />
 <meta content='Static'							name='googlebot' />
@@ -53,10 +53,6 @@ textarea{
 	font-size	:18px;
 }
 </style>
-<!--script src='/jsgif-master/Demos/b64.js'></script>
-<script src='/jsgif-master/LZWEncoder.js'></script>
-<script src='/jsgif-master/NeuQuant.js'></script>
-<script src='/jsgif-master/GIFEncoder.js'></script-->
 <script>
 /****************************************************************
 ****************************************************************/
@@ -172,7 +168,7 @@ function gifCreate() {
 			gif.setRepeat(0); //auto-loop
 			gif.setDelay(100 * gifEach);
 			gif.start();
-			document.getElementById("Process").innerHTML = "RENDERING...";
+			document.getElementById("Process").innerHTML = "BUFFERING...";
 		} catch(e) {
 			document.getElementById("Process").innerHTML = "ERROR: GIF Encoder not found...";
 			Bitmaps.length = 0;
@@ -183,19 +179,20 @@ function gifCreate() {
 	if(Bitmaps.length) {
 		var	tmp = Bitmaps.shift();
 		document.getElementById("cartoon").src = tmp.src;
-		CINEMA.ctx.drawImage(tmp, 0, 0, CINEMA.cnv.width, CINEMA.cnv.height, 0, 0, CINEMA.cnv.width, CINEMA.cnv.height);
-		gif.addFrame(CINEMA.ctx);
+		CINEMA.shootx.drawImage(tmp, 0, 0, CINEMA.shoots.width, CINEMA.shoots.height, 0, 0, CINEMA.shoots.width, CINEMA.shoots.height);
+		gif.addFrame(CINEMA.shootx);
 		setTimeout(gifCreate, 1);
 		document.getElementById("Progress").value = Bitmaps.length;
+		if(Bitmaps.length == 0)
+			document.getElementById("Process").innerHTML = "ENCODING...";
 	} else {
-		document.getElementById("Process").innerHTML = "ENCODING...";
 		document.getElementById("Progress").style.display = "none";
 		document.getElementById("Capture").style.display = "inline-block";
 		if(gif) {
 			gif.finish();
 			document.getElementById("cartoon").src = "data:image/gif;base64,"+encode64(gif.stream().getData());
-			var wnd = window.open("", "Animation");
-			var url = document.getElementById("cartoon").src;//.replace(/^data:image\/[^;]+/, 'data:application/octet-stream');
+			var url = document.getElementById("cartoon").src.replace(/^data:image\/[^;]+/, 'data:application/octet-stream');
+			var wnd = window.open(url, "Animation");
 			document.getElementById("Uploader").href = url;
 			document.getElementById("Process").innerHTML = "CARTOON";
 			delete gif;
@@ -315,6 +312,7 @@ function actor_man(cnv, ctx, man, emotion) {
 	rift = man.step >= 540 ? man.phase + 180 + 180 : man.phase - 540 - 180;
 	man.phase = (man.phase % 360 + man.step + 360) % 360;
 	man.position.x = man.step < -180 ? man.position.x + (man.step + 180) % 360 / 10 : man.step >= 180 ? man.position.x + (man.step - 180) % 360 / 10 : man.position.x;
+	ctx.strokeWidth = 2;
 	ctx.strokeStyle = "black";
 	ctx.fillStyle = "white";
 	ctx.beginPath();
@@ -322,6 +320,7 @@ function actor_man(cnv, ctx, man, emotion) {
 	ctx.closePath(); ctx.stroke(); ctx.fill();
 	if(emoji) {
 		tmp = Math.random() * 100 > 95 ? 0.125 : 1;
+		ctx.lineWidth = 1 / 2;
 		ctx.beginPath();
 		ctx.ellipse(cx - w / 4, cy - h + w / 3, emoji.lhr, emoji.lvr * tmp, 0, emoji.las * Math.PI / 180, emoji.laf * Math.PI / 180, true);
 		ctx.closePath(); ctx.stroke(); ctx.beginPath();
@@ -330,15 +329,18 @@ function actor_man(cnv, ctx, man, emotion) {
 		ctx.ellipse(cx, cy - h + w * 5 / 7, emoji.mhr, emoji.mvr, 0, emoji.mas * Math.PI / 180, emoji.maf * Math.PI / 180, true);
 		ctx.closePath(); ctx.stroke();
 	}
+	ctx.lineWidth = 2;
 	ctx.beginPath();
 	a = Math.PI * 75 / 360;
 	hx = Math.cos(a) * w / 2,
 	hy = cy - Math.sin(a) * h / 6 - h / 2 - w / (10 / 6);
 	ctx.ellipse(cx, cy - h / 2 - w / (10 / 6), w / 2, h / 6, 0, 0, Math.PI * 2, true);
 	hx1 = cx + hx, hy1 = hy, hx3 = hx1 + man.members.lhx * h / 8, hy3 = hy1 - man.members.lhy * h / 8;
-	ctx.moveTo(hx1, hy1); kinematic_line(ctx, hx1, hy1, hx3, hy3, h / 8, -1, +1);
+	a = hx1 < hx3 ? +1 : -1;
+	ctx.moveTo(hx1, hy1); kinematic_line(ctx, hx1, hy1, hx3, hy3, h / 8, -1 * a, +1 * a);
 	hx1 = cx - hx, hy1 = hy, hx3 = hx1 + man.members.rhx * h / 8, hy3 = hy1 - man.members.rhy * h / 8;
-	ctx.moveTo(hx1, hy1); kinematic_line(ctx, hx1, hy1, hx3, hy3, h / 8, +1, -1);
+	a = hx1 < hx3 ? -1 : +1;
+	ctx.moveTo(hx1, hy1); kinematic_line(ctx, hx1, hy1, hx3, hy3, h / 8, +1 * a, -1 * a);
 	ctx.stroke();
 	ctx.beginPath();
 	px = cx, py = cy - h / 2 - w / (10 / 6) + h / 6;
@@ -591,6 +593,8 @@ ACTORS["КАМЕРА"].Render			// Камера - основной "участн
 var	CINEMA	= {
 		cnv	: null,
 		ctx	: null,
+		shoots	: null,
+		shootx	: null,
 		Actors	: {
 			"КАМЕРА"	:{
 				job		: true,
@@ -620,25 +624,24 @@ var	CINEMA	= {
 						this.job = false;
 					if(this.job)
 						this.timer = setTimeout(this.Casted.bind(this), 60000 / tmp);
-					for(var id in this.troupe) {
-						CINEMA.Actors[this.troupe[id]].Render(CINEMA.cnv, CINEMA.ctx);
-					}
-					if(gifTimes > 0) {
-						gifTimes --;
-						if(gifTimes % (gifEach + 1) > 0)
+					if(gifTimes > 0 && gifBegin > 0) {
+						for(var id in this.troupe)
+							CINEMA.Actors[this.troupe[id]].Render(CINEMA.shoots, CINEMA.shootx);
+						CINEMA.ctx.drawImage(CINEMA.shoots, 0, 0, CINEMA.shoots.width, CINEMA.shoots.height, 0, 0, CINEMA.cnv.width, CINEMA.cnv.height);
+						if(-- gifBegin > 0)
 							return;
-						if(gifBegin > 0)
-							return gifBegin --;
+						gifBegin = gifEach;
+						gifTimes --;
 						tmp = new Image();
-						tmp.src = CINEMA.ctx.canvas.toDataURL("image/jpeg",50);
+						tmp.src = CINEMA.shootx.canvas.toDataURL("image/jpeg",50);
 						document.getElementById("cartoon").src = tmp.src;
 						Bitmaps.push(tmp);
 						document.getElementById("Progress").value = Bitmaps.length;
-						if(gifTimes == 0) {
-							//document.getElementById("Progress").style.backgroundColor = "yellow";
+						if(gifTimes == 0)
 							gifCreate();
-						}
-					}
+					} else
+						for(var id in this.troupe)
+							CINEMA.Actors[this.troupe[id]].Render(CINEMA.cnv, CINEMA.ctx);
 				},
 			},
 			"ПОГОДА"	:{
@@ -827,10 +830,12 @@ var	CINEMA	= {
 						}
 					},
 					"Махать"	: function(Man, cnv, ctx, data, troupe) {
-						Man.members.lhx = Math.cos(Man.phase) / 2;
-						Man.members.lhy = Math.sin(Man.phase) / 2;
-						Man.members.rhx = Math.cos(Man.phase) / 2;
-						Man.members.rhy = Math.sin(Man.phase) / 2;
+						var	a = Man.hands * Math.PI / 180;
+						Man.members.lhx = Math.cos(a);
+						Man.members.lhy = Math.sin(a);
+						Man.members.rhx = -Math.cos(a);
+						Man.members.rhy = Math.sin(a);
+						Man.hands = (Man.hands % 360 + 360 + 15) % 360;
 					},
 					"Прыгать"	: function(Man, cnv, ctx, data, troupe) {
 						var	j = Math.sin(Man.phase) * 5 / 3;
@@ -871,6 +876,7 @@ var	CINEMA	= {
 							var Man = this.troupe[Nick];
 							if(!("phase" in Man)) {
 								Man.phase = 0;
+								Man.hands = 0;
 								Man.age = 16;
 								Man.fat = 1;
 								Man.step = 0;
@@ -1523,7 +1529,7 @@ function Storing(pk, pks, text) {
 	pk.story[pk.story.length - 1].push(text);
 	document.getElementById("debugger").innerHTML += text + "<br />";
 }
-function parse_section(pk, iSection = -1, ppwc = 0) {
+function parse_section(pk, iSection, ppwc) {
 	var	pks = iSection < 0 ? pk.Scenario : pk.Sections[iSection];
 	if(!pks.pSection)
 		return;
@@ -1605,7 +1611,7 @@ function parse_section(pk, iSection = -1, ppwc = 0) {
 		}
 		if(GEM_SECTION_RUN == pwc.a_ptr && pks.iDenominator < 0 && jSection >= 0) {
 			pk.Sections[jSection].iKeyboard = pks.iKeyboard;
-			parse_section(pk, jSection);
+			parse_section(pk, jSection, 0);
 			++ pwc.ptr;
 			continue;
 		}
@@ -2108,7 +2114,7 @@ function	parse(p, cmd) {
 	});
 	p.Casting = [];
 	parse_scenario(p, cmd);
-	while(parse_section(p));
+	while(parse_section(p, -1, 0));
 	clearTimeout(hTimer);
 	animate_section();
 	return;
@@ -2401,6 +2407,14 @@ function main() {
 	hTabs[3] = document.getElementById("Effects");
 	CINEMA.cnv = document.getElementById("Movie");
 	CINEMA.ctx = CINEMA.cnv.getContext("2d");
+	if(CanvasRenderingContext2D.prototype.ellipse == undefined)
+		CanvasRenderingContext2D.prototype.ellipse = function(x, y, radiusX, radiusY, rotation, startAngle, endAngle, antiClockwise) {
+			this.save(); this.translate(x, y); this.rotate(rotation); this.scale(radiusX, radiusY);
+			this.arc(0, 0, 1, startAngle, endAngle, antiClockwise);
+			this.restore();
+		}
+	CINEMA.shoots = document.getElementById("Shoots");
+	CINEMA.shootx = CINEMA.shoots.getContext("2d");
 	//setInterval("actor_cloud(c2d, clouds[0])", 250);
 	var	hTab, hRow, hCell, pattern, hMode;
 	var	x, y, i, n, order, tmp;
@@ -2606,31 +2620,34 @@ function main() {
 }
 function	Recording(nFrom, nEach, nFrames) {
 	Bitmaps = [];
-	gifTimes = (+nFrom + +nFrames) * +nEach;
+	gifTimes = +nFrames;
 	gifEach = +nEach;
 	gifBegin = +nFrom;
 	document.getElementById("Capture").style.display = "none";
-	document.getElementById("Progress").max = nFrames - 1;
-	document.getElementById("Progress").min = 0;
+	document.getElementById("Progress").max = +nFrames;
 	document.getElementById("Progress").style.display = "inline-block";
 	document.getElementById("Process").innerHTML = "CAPTURING...";
-	//document.getElementById("Progress").style.backgroundColor = "red";
 	parser();
 }
 </script>
+<script src='http://cdn.rawgit.com/antimatter15/jsgif/master/Demos/b64.js'></script>
+<script src='http://cdn.rawgit.com/antimatter15/jsgif/master/LZWEncoder.js'></script>
+<script src='http://cdn.rawgit.com/antimatter15/jsgif/master/NeuQuant.js'></script>
+<script src='http://cdn.rawgit.com/antimatter15/jsgif/master/GIFEncoder.js'></script>
 </head>
 <body onload='main()'>
 <table>
 <tr valign=top style=display:none>
 <td colspan=2><pre id=leds></pre></td></tr>
 <tr><td>
-<textarea id='Scenario' rows=45 cols=80>
+<textarea id='Scenario' rows=45 cols=80 title='Press SHIFT+ENTER for reparse...'>
 1$	Реплики людей
 	КАМЕРА			Подготовим КАМЕРУ,
 		Участники	добавив в кадр
 			ПОГОДА	синтез погодных явлений
 			ЧЕЛОВЕК	и коллектив актёров
 	ПОГОДА			Настраиваем ПОГОДУ
+		Динамика=99-699	От 99 до 699 в минуту
 		Месяц=6-6	Месяц - Июнь
 		День=6-6	Девять часов дня
 		Солнце=90-90	Девяносто процентов света
@@ -2709,6 +2726,7 @@ function	Recording(nFrom, nEach, nFrames) {
 			Привет!
 			:)
 			0:02-0:02
+			:)
 		Акт
 			Прыгать
 			Шагать
@@ -2738,91 +2756,99 @@ function	Recording(nFrom, nEach, nFrames) {
 			Прыгать
 			Махать
 			0:04-0:04
-		Речь= 
+		Речь
+			:D
 		Акт
 			Прыгать
+			Махать
 			Махать
 			Шагать до John Smith
 			0:15-0:15
 		Акт
 			Прыгать
 			0:14-0:14
+		Речь
+			:D
 		Акт
 			Бежать к центру
 			0:5-0:5
 		Речь
 			Автор идеи и программист
+			:-)
 			©2018 Аликберов
 		Акт
 			Прыгать
 			Махать
 			0:8-0:8
-	ЧЕЛОВЕК John Smith
-		Акт
-			Старт в начале
-			Вдаль
-			0:3-0:3
-			Старт в начале
-			Вдаль
-			Вдаль
-			Вдаль
-			0:3-0:3
-			Шагать к центру
-			Прыгать
-			Вблизь
-		Речь
-			Привет!
-			:)
-			0:03-0:03
-		Акт
-			Шагать
-			Влево
-		Речь
+	ЧЕЛОВЕК John Smith	MAN John Smith
+		Акт			Action
+			Старт в начале		Start in begin
+			Вдаль			Far
+			0:6-0:6			0:6-0:6
+		Акт			Action
+			Шагать к центру		Walk to center
+			Прыгать			Jump
+			Вблизь			Near
+		Речь			Speech
+			Привет!			Hello!
+			:)			:)
+			0:03-0:03		0:3-0:3
+		Акт			Action
+			Шагать			Walk
+			Влево			Left
+		Речь			Speech
 			Не думаю, что стоило выходить
 			:/
 			0:5-0:5
-		Акт
-			Махать
-		Речь
-			Вау!!!
-			:o
-			0:3-0:3
-			Пойду-ка я домой!
-			Не хватало ещё промочить
-			новенький смартфон!!!
-			:(
-			0:5-0:5
-		Акт
-			Прыгать
-			Бежать на запад
-			Махать
-			0:11-0:11
-		Акт
-			Бежать на восток
-			Прыгать
-			0:15-0:15
-		Речь
-			Подготовленно
-			специально
-			на 1 апреля...
-		Акт
-			Махать
-			0:4-0:4
-		Акт
-			Махать
-			Прыгать
-			Шагать к началу
-			0:4-0:4
-		Речь
-			Источник:
+		Акт			Action
+			Махать			Wave
+		Речь			Speech
+			Вау!!!			Wow!
+			:o			:o
+			0:3-0:3			0:3-0:3
+			Пойду-ка я домой!	Let me back to home!
+			Не хватало ещё промочить	My smartphone
+			новенький смартфон!!!	may be drenching
+			:(			:(
+			0:5-0:5			0:5-0:5
+			:(			:(
+		Акт			Action
+			Прыгать			Jump
+			Бежать на запад		Run to west
+			Махать			Wave
+			0:11-0:11		0:11-0:11
+		Речь			Speech
+			:)			:)
+		Акт			Action
+			Бежать на восток	Run to east
+			Прыгать			Jump
+			0:15-0:15		0:15-0:15
+		Речь			Speech
+			Подготовлено		Creating for april 1...
+			специально		Idea and code by
+			на 1 апреля...		©2018 Alikberov
+			:-D			:-D
+		Акт			Action
+			Махать			Wave
+			0:4-0:4			0:4-0:4
+		Речь			Speech
+			:)			:)
+		Акт			Action
+			Махать			Wave
+			Прыгать			Jump
+			Шагать к началу		Walk to begin
+			0:4-0:4			0:4-0:4
+		Речь			Speech
+			Источник:		Source:
+			:-)
 			http://github.com/Alikberov/Fantaseur</textarea></td>
 <td valign='top'><canvas id='Movie' width='640' height='480'></canvas>
 <table id='Brailles'>
 <tr><th id='Process'>Cartoon</th></tr>
-<tr><td><span id='Capture'>From<input id='Beginning' type='number' min='0' max='9999' value='3' /> Length<input id='Duration' type='number' min='1' max='199' value='64' /> Each<input id='Each' type='number' min='1' max='25' value='12' />
+<tr><td><span id='Capture'>From<input id='Beginning' type='number' min='0' max='9999' value='3' /> Length<input id='Duration' type='number' min='1' max='500' value='384' /> Each<input id='Each' type='number' min='1' max='25' value='2' />
 <button onclick='Recording(document.getElementById("Beginning").value, document.getElementById("Each").value, document.getElementById("Duration").value)'>Generate GIF</button></span>
 <progress id='Progress' style='display:none; width:480px'></progress></td></tr>
-<tr><td><a id='Uploader' download='Fantaseur.gif' href='' target='blank' alt='Click for save'><img id='cartoon' width='480' height='360' /></a></td></tr></table>
+<tr><td><a id='Uploader' download='Fantaseur.gif' href='#' alt='Click for save' target='blank'><canvas id='Shoots' width='320' height='240' style=display:none></canvas><img id='cartoon' width='480' height='360' /></a></td></tr></table>
 <table id='Numbers'></table>
 <table id='Operators'></table>
 <table id='Effects'></table></td></tr></table>
@@ -2832,4 +2858,4 @@ function	Recording(nFrom, nEach, nFrames) {
 <pre id='debugger' style=display:none></pre>
 <table id='environment' style=display:none></table>
 <p style=text-align:center><a href='http://github.com/Alikberov'>Visit me now</a><br />&copy;2018 Alikberov</p>
-</body>>
+</body>
