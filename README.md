@@ -1,7 +1,7 @@
 # Fantaseur
 Dreamer / Фантазёр
 This is very primitive tool for simple comics generation.
-«[Fantaseur](http://htmlpreview.github.io/?http://github.com/Alikberov/Fantaseur/blob/master/Fantaseur/Fantaseur.html)» - useful web-editor.
+«[Fantaseur](http://htmlpreview.github.io/?http://github.com/Alikberov/Fantaseur/blob/master/Fantaseur.html)» - useful web-editor.
 С помощью этой достаточно примитивной утилиты можно генерировать простейщие сцены комиксов с участием нескольких персонажей на фоне динамически меняющихся погодных условий.
 На данный момент проект очень сырой и активно дорабатывается по мере возможности.
 ## Demonstration / Демонстрация
