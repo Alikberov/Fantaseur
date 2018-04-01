@@ -9,3 +9,12 @@ This is another branch of [Glazeur](http://github.com/Alikberov/Glazeur) develop
 ## Demonstration / Демонстрация
 [![Utility in work demonstration](https://img.youtube.com/vi/6jYxeS9G8yc/1.jpg)](http://youtu.be/6jYxeS9G8yc)
 [![Result of utility animation](https://img.youtube.com/vi/d0GcFAyUQEs/1.jpg)](http://youtu.be/d0GcFAyUQEs)
+## Dedication / Посвящается
+Lots of my hobby works based on experience for using:
+  - [Designer's Pencil](http://atariage.com/software_page.php?SoftwareID=3740)
+  - [GRASP](http://en.wikipedia.org/wiki/Graphics_Animation_System_for_Professionals)
+  - [Microsoft Comic Chat](http://en.wikipedia.org/wiki/Microsoft_Comic_Chat)
+Большинство из моих творческих работ основано на опыте использования:
+  - [Designer's Pencil](http://atariage.com/software_page.php?SoftwareID=3740)
+  - [GRASP](http://en.wikipedia.org/wiki/Graphics_Animation_System_for_Professionals)
+  - [Microsoft Comic Chat](http://en.wikipedia.org/wiki/Microsoft_Comic_Chat)
