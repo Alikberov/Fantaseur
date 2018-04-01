@@ -53,13 +53,12 @@ textarea{
 	font-size	:18px;
 }
 </style>
-<script src="D:/etc/man/jsgif-master/jsgif-master/Demos/b64.js"></script>
-<script src="D:/etc/man/jsgif-master/jsgif-master/LZWEncoder.js"></script>
-<script src="D:/etc/man/jsgif-master/jsgif-master/NeuQuant.js"></script>
-<script src="D:/etc/man/jsgif-master/jsgif-master/GIFEncoder.js"></script>
-<script>//Symbol";
+<!--script src='/jsgif-master/Demos/b64.js'></script>
+<script src='/jsgif-master/LZWEncoder.js'></script>
+<script src='/jsgif-master/NeuQuant.js'></script>
+<script src='/jsgif-master/GIFEncoder.js'></script-->
+<script>
 /****************************************************************
-setTimeout(Actor["ПОГОДА"](), 
 ****************************************************************/
 function	WCHAR(str) {
 	var
@@ -141,8 +140,8 @@ function Automatic(ths) {
 	while(tmp.length > 0) {
 		if(tmp[0][0] == "@") {
 			tmp[0][0] = "";
-			ths[":Стабильность"][0] = Variation([tmp[0][1], tmp[0][1], tmp[0][2]]) * 1000;
-			setTimeout(ths.Clear.bind(ths), ths[":Стабильность"][0]);
+			ths[":РЎС‚Р°Р±РёР»СЊРЅРѕСЃС‚СЊ"][0] = Variation([tmp[0][1], tmp[0][1], tmp[0][2]]) * 1000;
+			setTimeout(ths.Clear.bind(ths), ths[":РЎС‚Р°Р±РёР»СЊРЅРѕСЃС‚СЊ"][0]);
 		} else
 		if(tmp[0][0] != "" && (tmp[0][0] in ths)) {
 			if(tmp[0][1] < 0)
@@ -238,10 +237,10 @@ function actor_cloud_new(w, h, rainy) {
 
 function ru_casing(dst, troupe) {
 	if(!(dst in troupe))
-		if((tmp = dst.replace(/(\S+)[аеу]\s(\S+)/, "$1 $2")) in troupe)
+		if((tmp = dst.replace(/(\S+)[Р°РµСѓ]\s(\S+)/, "$1 $2")) in troupe)
 			return tmp;
 		else
-		if((tmp = dst.replace(/(\S+)[аеу]\s(\S+)[аеу]/, "$1 $2")) in troupe)
+		if((tmp = dst.replace(/(\S+)[Р°РµСѓ]\s(\S+)[Р°РµСѓ]/, "$1 $2")) in troupe)
 			return tmp;
 	return tmp;
 }
@@ -378,7 +377,7 @@ function actor_man(cnv, ctx, man, emotion) {
 	ctx.stroke();
 	return {x: cx, y:cy - h};
 }
-// Рисуем небо:    контекст, часы, месяц, яркость
+// Р РёСЃСѓРµРј РЅРµР±Рѕ:    РєРѕРЅС‚РµРєСЃС‚, С‡Р°СЃС‹, РјРµСЃСЏС†, СЏСЂРєРѕСЃС‚СЊ
 function actor_sky(cnv, ctx, hour, month, bright) {
 	var	seasons = [
 			{ sky:{ day:{ r:224, g:240, b:255 }, night:{ r:32, g:48, b:128 }, morning:{ r:176, g:192, b:192 }, evening:{ r:192, g:160, b:128 } } }	// winter
@@ -390,7 +389,7 @@ function actor_sky(cnv, ctx, hour, month, bright) {
 	var	sunset = Math.sin((month + 2) * Math.PI / 12) * 2 + 18;
 	var	quarter = Math.floor((month + 11) % 12 / 3);
 	var	quartnext = Math.floor(month % 12 / 3);
-	var	zenith = (Math.sin((month - 1) * Math.PI / 12) + 1) * (cnv.height * 3 / 8);	// Высота солнца в зените сезона
+	var	zenith = (Math.sin((month - 1) * Math.PI / 12) + 1) * (cnv.height * 3 / 8);	// Р’С‹СЃРѕС‚Р° СЃРѕР»РЅС†Р° РІ Р·РµРЅРёС‚Рµ СЃРµР·РѕРЅР°
 	var	sun_x = (Math.sin(hour * Math.PI / 12) + 1) * cnv.width / 2;
 	var	sun_y = Math.cos(hour * Math.PI / 12) * zenith + cnv.height * 2 / 3;
 	var	moon_x = (-Math.sin(hour * Math.PI / 12) + 1) * cnv.width / 2;
@@ -406,15 +405,15 @@ function actor_sky(cnv, ctx, hour, month, bright) {
 		rgb = night;
 	else {
 		rgb = day;
-		if(hour < sunrise + 2)	// Два часа до утра
-			if(hour < sunrise + 1)	// За час до рассвета
+		if(hour < sunrise + 2)	// Р”РІР° С‡Р°СЃР° РґРѕ СѓС‚СЂР°
+			if(hour < sunrise + 1)	// Р—Р° С‡Р°СЃ РґРѕ СЂР°СЃСЃРІРµС‚Р°
 				rgb = gradient(night, morning, (hour - sunrise));
-			else			// Утро переходит в день
+			else			// РЈС‚СЂРѕ РїРµСЂРµС…РѕРґРёС‚ РІ РґРµРЅСЊ
 				rgb = gradient(morning, rgb, (hour - sunrise - 1));
-		if(hour > sunset - 2)	// Два часа до вечера
-			if(hour > sunset - 1)	// Вечер переходит в ночь
+		if(hour > sunset - 2)	// Р”РІР° С‡Р°СЃР° РґРѕ РІРµС‡РµСЂР°
+			if(hour > sunset - 1)	// Р’РµС‡РµСЂ РїРµСЂРµС…РѕРґРёС‚ РІ РЅРѕС‡СЊ
 				rgb = gradient(evening, night, (hour - (sunset - 1)));
-			else			// За час до заката
+			else			// Р—Р° С‡Р°СЃ РґРѕ Р·Р°РєР°С‚Р°
 				rgb = gradient(rgb, evening, (hour - (sunset - 2)));
 	}
 	rgb = gradient(night, rgb, bright / 100);
@@ -436,7 +435,7 @@ function actor_sky(cnv, ctx, hour, month, bright) {
 	ctx.fill();
 }
 
-// Рисуем облако:  контекст, облако, позиция, ветер, капли
+// Р РёСЃСѓРµРј РѕР±Р»Р°РєРѕ:  РєРѕРЅС‚РµРєСЃС‚, РѕР±Р»Р°РєРѕ, РїРѕР·РёС†РёСЏ, РІРµС‚РµСЂ, РєР°РїР»Рё
 function actor_cloud(cnv, ctx, cloud, x0, windy, d, text, xm, ym, yy) {
 	var	x, y, z, w, h, n, d, r1, r2, r3;
 	var	i, a, x1, y1, x2, y2, x3, y3, r, r0, tmp;
@@ -538,15 +537,15 @@ function actor_cloud(cnv, ctx, cloud, x0, windy, d, text, xm, ym, yy) {
 /*
 var	RENDER	=
 {
-	"КАМЕРА":
+	"РљРђРњР•Р Рђ":
 	{
 	}
 };
 var	ACTOR	=
 {				// KAMERA - the leading participant of stage for whole frame drawing
-	cnv, ctx		// Контекст графического окна
-,	casting	:[]		// Список участников текущей сцены
-,	novel	:[]		// Описание "новеллы"
+	cnv, ctx		// РљРѕРЅС‚РµРєСЃС‚ РіСЂР°С„РёС‡РµСЃРєРѕРіРѕ РѕРєРЅР°
+,	casting	:[]		// РЎРїРёСЃРѕРє СѓС‡Р°СЃС‚РЅРёРєРѕРІ С‚РµРєСѓС‰РµР№ СЃС†РµРЅС‹
+,	novel	:[]		// РћРїРёСЃР°РЅРёРµ "РЅРѕРІРµР»Р»С‹"
 ,	Keying
 	:function(action)
 	{
@@ -579,9 +578,9 @@ var	ACTOR	=
 	}
 }
 var	ACTORS	= {};
-ACTORS["КАМЕРА"].Render			// Камера - основной "участник" сцены для отрисовки всего кадра
+ACTORS["РљРђРњР•Р Рђ"].Render			// РљР°РјРµСЂР° - РѕСЃРЅРѕРІРЅРѕР№ "СѓС‡Р°СЃС‚РЅРёРє" СЃС†РµРЅС‹ РґР»СЏ РѕС‚СЂРёСЃРѕРІРєРё РІСЃРµРіРѕ РєР°РґСЂР°
 
-,	"ПОГОДА":			// Погода - первый "участник" сцены при отрисовки заднего плана
+,	"РџРћР“РћР”Рђ":			// РџРѕРіРѕРґР° - РїРµСЂРІС‹Р№ "СѓС‡Р°СЃС‚РЅРёРє" СЃС†РµРЅС‹ РїСЂРё РѕС‚СЂРёСЃРѕРІРєРё Р·Р°РґРЅРµРіРѕ РїР»Р°РЅР°
 	{				// WETHER - the first participant in stage for background drawing
 		cnv, ctx
 	,	casting	:[]
@@ -593,14 +592,14 @@ var	CINEMA	= {
 		cnv	: null,
 		ctx	: null,
 		Actors	: {
-			"КАМЕРА"	:{
+			"РљРђРњР•Р Рђ"	:{
 				job		: true,
 				timer		: 0,
 				role		: [],
 				troupe		: [],
-				":Стабильность"	: [0, 0, 0],
-				".Динамика"	: [650, 600, 700],
-				".Участники"	: [],
+				":РЎС‚Р°Р±РёР»СЊРЅРѕСЃС‚СЊ"	: [0, 0, 0],
+				".Р”РёРЅР°РјРёРєР°"	: [650, 600, 700],
+				".РЈС‡Р°СЃС‚РЅРёРєРё"	: [],
 				Clear: function() {
 					this.role.shift();
 				},
@@ -616,7 +615,7 @@ var	CINEMA	= {
 						if(id.charAt(0) == '.')
 							this[id][0] = Variation(this[id]);
 					}
-					tmp = this[".Динамика"][0];
+					tmp = this[".Р”РёРЅР°РјРёРєР°"][0];
 					if(tmp < 1)
 						this.job = false;
 					if(this.job)
@@ -642,38 +641,38 @@ var	CINEMA	= {
 					}
 				},
 			},
-			"ПОГОДА"	:{
+			"РџРћР“РћР”Рђ"	:{
 				job		: true,
 				timer		: 0,
 				role		: [],		// [current, minimum, maximum]
 				clouds		: [],
-				":Стабильность"	: [0, 0, 0],
-				".День"		: [90, 0, 180],
-				".Месяц"	: [6,6,6],
-				".Солнце"	: [0, 45, 85],
-				".Прогноз"	: [0, 5, 5],
-				".Ветерка"	: [0, 5, 5],
-				".Облаков"	: [0, 15, 33],
-				".Осадков"	: [0, 12, 17],
-				".Молний"	: [0, 0, 0],
-				".Динамика"	: [650, 600, 700],
-				".Тумана"	: [0, 45, 85],
-				".Дыма"		: [0, 45, 85],
-				".Пыли"		: [0, 45, 85],
+				":РЎС‚Р°Р±РёР»СЊРЅРѕСЃС‚СЊ"	: [0, 0, 0],
+				".Р”РµРЅСЊ"		: [90, 0, 180],
+				".РњРµСЃСЏС†"	: [6,6,6],
+				".РЎРѕР»РЅС†Рµ"	: [0, 45, 85],
+				".РџСЂРѕРіРЅРѕР·"	: [0, 5, 5],
+				".Р’РµС‚РµСЂРєР°"	: [0, 5, 5],
+				".РћР±Р»Р°РєРѕРІ"	: [0, 15, 33],
+				".РћСЃР°РґРєРѕРІ"	: [0, 12, 17],
+				".РњРѕР»РЅРёР№"	: [0, 0, 0],
+				".Р”РёРЅР°РјРёРєР°"	: [650, 600, 700],
+				".РўСѓРјР°РЅР°"	: [0, 45, 85],
+				".Р”С‹РјР°"		: [0, 45, 85],
+				".РџС‹Р»Рё"		: [0, 45, 85],
 				Clear: function() {
 					this.role.shift();
 				},
 				Render: function(cnv, ctx) {
-					var day = this[".День"][0];
-					var month = this[".Месяц"][0];
-					var sunny = this[".Солнце"][0];
-					var temper = this[".Прогноз"][0];
-					var lighting = this[".Молний"];
+					var day = this[".Р”РµРЅСЊ"][0];
+					var month = this[".РњРµСЃСЏС†"][0];
+					var sunny = this[".РЎРѕР»РЅС†Рµ"][0];
+					var temper = this[".РџСЂРѕРіРЅРѕР·"][0];
+					var lighting = this[".РњРѕР»РЅРёР№"];
 					actor_sky(cnv, ctx, day, month, Math.random() * lighting[0] >= 10 ? sunny * 2 : sunny);
 					ctx.beginPath();
-					var cloudy = this[".Облаков"][0];
-					var windy = this[".Ветерка"][0];
-					var rainy = this[".Осадков"][0];
+					var cloudy = this[".РћР±Р»Р°РєРѕРІ"][0];
+					var windy = this[".Р’РµС‚РµСЂРєР°"][0];
+					var rainy = this[".РћСЃР°РґРєРѕРІ"][0];
 					var drops = rainy;
 					for(tmp = 0; tmp < this.clouds.length; ++ tmp) {
 						if(this.clouds[tmp].x < -cnv.width)
@@ -706,21 +705,21 @@ var	CINEMA	= {
 						if(id.charAt(0) == '.')
 							this[id][0] = Variation(this[id]);
 					}
-					tmp = this[".Динамика"][0];
+					tmp = this[".Р”РёРЅР°РјРёРєР°"][0];
 					if(tmp < 1)
 						this.job = false;
 					if(this.job)
 						this.timer = setTimeout(this.Casted.bind(this), 60000 / tmp);
 				},
 			},
-			"ГОРОД":{
+			"Р“РћР РћР”":{
 				job		: true,
 				velocity	: 5,
 				role		: [],		// [current, minimum, maximum]
-				":Стабильность"	: [0, 0, 0],
-				".Свет"		: [0, 5, 5],
-				".Шум"		: [0, 5, 5],
-				".Криминал"	: [0, 5, 5],
+				":РЎС‚Р°Р±РёР»СЊРЅРѕСЃС‚СЊ"	: [0, 0, 0],
+				".РЎРІРµС‚"		: [0, 5, 5],
+				".РЁСѓРј"		: [0, 5, 5],
+				".РљСЂРёРјРёРЅР°Р»"	: [0, 5, 5],
 				Clear: function() {
 					this.role.shift();
 				},
@@ -739,16 +738,16 @@ var	CINEMA	= {
 					}
 				},
 			},
-			"ТРАФИК":{
+			"РўР РђР¤РРљ":{
 				job		: true,
 				velocity	: 5,
 				role		: [],		// [current, minimum, maximum]
 				cars		: [],
-				":Стабильность"	: [0, 0, 0],
-				".Свет"		: [0, 5, 5],
-				".Шум"		: [0, 5, 5],
-				".Насыщенность"	: [0, 5, 5],
-				".Аварий"	: [0, 5, 5],
+				":РЎС‚Р°Р±РёР»СЊРЅРѕСЃС‚СЊ"	: [0, 0, 0],
+				".РЎРІРµС‚"		: [0, 5, 5],
+				".РЁСѓРј"		: [0, 5, 5],
+				".РќР°СЃС‹С‰РµРЅРЅРѕСЃС‚СЊ"	: [0, 5, 5],
+				".РђРІР°СЂРёР№"	: [0, 5, 5],
 				Clear: function() {
 					this.role.shift();
 				},
@@ -765,7 +764,7 @@ var	CINEMA	= {
 						if(id.charAt(0) == '.')
 							this[id][0] = Variation(this[id]);
 					}
-					var autos = this[".Насыщенность"][0];
+					var autos = this[".РќР°СЃС‹С‰РµРЅРЅРѕСЃС‚СЊ"][0];
 					while(this.cars.length < Math.floor(autos))
 						this.cars.push({
 							x	:CINEMA.cnv.width,
@@ -787,23 +786,23 @@ var	CINEMA	= {
 					CINEMA.ctx.stroke();
 				},
 			},
-			"ЧЕЛОВЕК ":{
+			"Р§Р•Р›РћР’Р•Рљ ":{
 				job		: true,
 				velocity	: 5,
 				row		: 0,
 				role		: [],		// [current, minimum, maximum]
 				troupe		: [],
-				":Стабильность"	: [0, 0, 0],
-				".Акт"		: {
-					"Шагать"	: function(Man, cnv, ctx, data, troupe) {
+				":РЎС‚Р°Р±РёР»СЊРЅРѕСЃС‚СЊ"	: [0, 0, 0],
+				".РђРєС‚"		: {
+					"РЁР°РіР°С‚СЊ"	: function(Man, cnv, ctx, data, troupe) {
 						var	dst = data.slice(1).join(" ");
 						var	radius, dx, dy, follow, escape;
 						if((dst in troupe) && ("position" in troupe[dst])) {
 							dx = (troupe[dst].position.x - Man.position.x);
 							dy = (troupe[dst].position.y - Man.position.y);
 							radius = Math.sqrt(dx * dx + dy * dy);
-							follow = (data[0] == "в" || data[0] == "к" || data[0] == "до" || data[0] == "на");
-							escape = ((data[0] == "из" || data[0] == "от") && (dst in troupe) && ("position" in troupe[dst]));
+							follow = (data[0] == "РІ" || data[0] == "Рє" || data[0] == "РґРѕ" || data[0] == "РЅР°");
+							escape = ((data[0] == "РёР·" || data[0] == "РѕС‚") && (dst in troupe) && ("position" in troupe[dst]));
 							if(follow || escape)
 								if(follow)
 									Man.step = dx < 0 ? -180 - radius / 6 : radius / 6 + 180;
@@ -811,15 +810,15 @@ var	CINEMA	= {
 									Man.step = dx > 0 ? -180 - radius / 6 : radius / 6 + 180;
 						}
 					},
-					"Бежать"	: function(Man, cnv, ctx, data, troupe) {
+					"Р‘РµР¶Р°С‚СЊ"	: function(Man, cnv, ctx, data, troupe) {
 						var	dst = data.slice(1).join(" ");
 						var	radius, dx, dy, follow, escape;
 						if((dst in troupe) && ("position" in troupe[dst])) {
 							dx = (troupe[dst].position.x - Man.position.x);
 							dy = (troupe[dst].position.y - Man.position.y);
 							radius = Math.sqrt(dx * dx + dy * dy);
-							follow = (data[0] == "в" || data[0] == "к" || data[0] == "до" || data[0] == "на");
-							escape = ((data[0] == "из" || data[0] == "от") && (dst in troupe) && ("position" in troupe[dst]));
+							follow = (data[0] == "РІ" || data[0] == "Рє" || data[0] == "РґРѕ" || data[0] == "РЅР°");
+							escape = ((data[0] == "РёР·" || data[0] == "РѕС‚") && (dst in troupe) && ("position" in troupe[dst]));
 							if(follow || escape)
 								if(follow)
 									Man.step = dx < 0 ? -180 - radius / 3 : radius / 3 + 180;
@@ -827,35 +826,35 @@ var	CINEMA	= {
 									Man.step = dx > 0 ? -180 - radius / 3 : radius / 3 + 180;
 						}
 					},
-					"Махать"	: function(Man, cnv, ctx, data, troupe) {
+					"РњР°С…Р°С‚СЊ"	: function(Man, cnv, ctx, data, troupe) {
 						Man.members.lhx = Math.cos(Man.phase) / 2;
 						Man.members.lhy = Math.sin(Man.phase) / 2;
 						Man.members.rhx = Math.cos(Man.phase) / 2;
 						Man.members.rhy = Math.sin(Man.phase) / 2;
 					},
-					"Прыгать"	: function(Man, cnv, ctx, data, troupe) {
+					"РџСЂС‹РіР°С‚СЊ"	: function(Man, cnv, ctx, data, troupe) {
 						var	j = Math.sin(Man.phase) * 5 / 3;
 						Man.position.j += Man.position.j < 2 ? j > 0 ? j : 0 : 0;
 					},
-					"Старт"	: function(Man, cnv, ctx, data, troupe) {
+					"РЎС‚Р°СЂС‚"	: function(Man, cnv, ctx, data, troupe) {
 						var	dst = data.slice(1).join(" ");
-						if((data[0] == "в" || data[0] == "у" || data[0] == "до") && (dst in troupe) && ("position" in troupe[dst])) {
+						if((data[0] == "РІ" || data[0] == "Сѓ" || data[0] == "РґРѕ") && (dst in troupe) && ("position" in troupe[dst])) {
 							Man.position.x = troupe[dst].position.x;
 						} else
-						if((data[0] == "из" || data[0] == "от") && (dst in troupe) && ("position" in troupe[dst])) {
+						if((data[0] == "РёР·" || data[0] == "РѕС‚") && (dst in troupe) && ("position" in troupe[dst])) {
 							Man.position.x = troupe[dst].position.x;
 						}
 					},
-					"Вдаль"		: function(Man, cnv, ctx, data, troupe) {
+					"Р’РґР°Р»СЊ"		: function(Man, cnv, ctx, data, troupe) {
 						if(Man.position.z < 10)
 							Man.position.z += 1 / 4;
 					},
-					"Вблизь"	: function(Man, cnv, ctx, data, troupe) {
+					"Р’Р±Р»РёР·СЊ"	: function(Man, cnv, ctx, data, troupe) {
 						if(Man.position.z > 1)
 							Man.position.z -= 1 / 4;
 					},
 				},
-				".Речь"		: [],
+				".Р РµС‡СЊ"		: [],
 				Clear: function() {
 					this.role.shift();
 				},
@@ -879,26 +878,26 @@ var	CINEMA	= {
 								Man.members = {lhx:0, lhy:0, rhx:0, rhy:0, lh: 0, rh: 0, ll: 0, rl: 0};
 							}
 							Man.step = 0;
-							this.troupe["запад"] = { position: {x: Man.position.x - 10, y: cnv.height / 2} };
-							this.troupe["запада"] = { position: {x: Man.position.x - 10, y: cnv.height / 2} };
-							this.troupe["западу"] = { position: {x: Man.position.x - 10, y: cnv.height / 2} };
-							this.troupe["западный"] = { position: {x: Man.position.x - 10, y: cnv.height / 2} };
-							this.troupe["восток"] = { position: {x: Man.position.x + 10, y: cnv.height / 2} };
-							this.troupe["востока"] = { position: {x: Man.position.x + 10, y: cnv.height / 2} };
-							this.troupe["востоку"] = { position: {x: Man.position.x + 10, y: cnv.height / 2} };
-							this.troupe["восточный"] = { position: {x: Man.position.x + 10, y: cnv.height / 2} };
-							this.troupe["центр"] = { position: {x: cnv.width / 2*0, y: cnv.height / 2} };
-							this.troupe["центра"] = { position: {x: cnv.width / 2*0, y: cnv.height / 2} };
-							this.troupe["центре"] = { position: {x: cnv.width / 2*0, y: cnv.height / 2} };
-							this.troupe["центру"] = { position: {x: cnv.width / 2*0, y: cnv.height / 2} };
-							this.troupe["начала"] = { position: {x: -cnv.width / 2, y: cnv.height / 2} };
-							this.troupe["начале"] = { position: {x: -cnv.width / 2, y: cnv.height / 2} };
-							this.troupe["начало"] = { position: {x: -cnv.width / 2, y: cnv.height / 2} };
-							this.troupe["началу"] = { position: {x: -cnv.width / 2, y: cnv.height / 2} };
-							this.troupe["конец"] = { position: {x: cnv.width / 2 * 2, y: cnv.height / 2} };
-							this.troupe["конца"] = { position: {x: cnv.width / 2 * 2, y: cnv.height / 2} };
-							this.troupe["конце"] = { position: {x: cnv.width / 2 * 2, y: cnv.height / 2} };
-							this.troupe["концу"] = { position: {x: cnv.width / 2 * 2, y: cnv.height / 2} };
+							this.troupe["Р·Р°РїР°Рґ"] = { position: {x: Man.position.x - 10, y: cnv.height / 2} };
+							this.troupe["Р·Р°РїР°РґР°"] = { position: {x: Man.position.x - 10, y: cnv.height / 2} };
+							this.troupe["Р·Р°РїР°РґСѓ"] = { position: {x: Man.position.x - 10, y: cnv.height / 2} };
+							this.troupe["Р·Р°РїР°РґРЅС‹Р№"] = { position: {x: Man.position.x - 10, y: cnv.height / 2} };
+							this.troupe["РІРѕСЃС‚РѕРє"] = { position: {x: Man.position.x + 10, y: cnv.height / 2} };
+							this.troupe["РІРѕСЃС‚РѕРєР°"] = { position: {x: Man.position.x + 10, y: cnv.height / 2} };
+							this.troupe["РІРѕСЃС‚РѕРєСѓ"] = { position: {x: Man.position.x + 10, y: cnv.height / 2} };
+							this.troupe["РІРѕСЃС‚РѕС‡РЅС‹Р№"] = { position: {x: Man.position.x + 10, y: cnv.height / 2} };
+							this.troupe["С†РµРЅС‚СЂ"] = { position: {x: cnv.width / 2*0, y: cnv.height / 2} };
+							this.troupe["С†РµРЅС‚СЂР°"] = { position: {x: cnv.width / 2*0, y: cnv.height / 2} };
+							this.troupe["С†РµРЅС‚СЂРµ"] = { position: {x: cnv.width / 2*0, y: cnv.height / 2} };
+							this.troupe["С†РµРЅС‚СЂСѓ"] = { position: {x: cnv.width / 2*0, y: cnv.height / 2} };
+							this.troupe["РЅР°С‡Р°Р»Р°"] = { position: {x: -cnv.width / 2, y: cnv.height / 2} };
+							this.troupe["РЅР°С‡Р°Р»Рµ"] = { position: {x: -cnv.width / 2, y: cnv.height / 2} };
+							this.troupe["РЅР°С‡Р°Р»Рѕ"] = { position: {x: -cnv.width / 2, y: cnv.height / 2} };
+							this.troupe["РЅР°С‡Р°Р»Сѓ"] = { position: {x: -cnv.width / 2, y: cnv.height / 2} };
+							this.troupe["РєРѕРЅРµС†"] = { position: {x: cnv.width / 2 * 2, y: cnv.height / 2} };
+							this.troupe["РєРѕРЅС†Р°"] = { position: {x: cnv.width / 2 * 2, y: cnv.height / 2} };
+							this.troupe["РєРѕРЅС†Рµ"] = { position: {x: cnv.width / 2 * 2, y: cnv.height / 2} };
+							this.troupe["РєРѕРЅС†Сѓ"] = { position: {x: cnv.width / 2 * 2, y: cnv.height / 2} };
 							Acting(this, Man);
 							if(Man.position.z < 0)
 								Man.position.z = 0;
@@ -914,10 +913,10 @@ var	CINEMA	= {
 							x = cnv.width / 2 + Man.position.x / z, y = (cnv.height - z) - (Man.position.y + Man.position.j) / z - cnv.height / 2;
 							x = cnv.width / 2 + Man.position.x / z, y = (cnv.height - z) - (Man.position.y + Man.position.j * s48) / z;
 							var	ty = y - s176 / z - s16 / z - cnv.height / 3, prefix = Nick + ": ";
-							var	text = ["«" + Nick + "»"], emoji = "";
+							var	text = ["В«" + Nick + "В»"], emoji = "";
 							for(var id in acts) {
 								var	data = acts[id][1].split(/\s+/);
-								if(acts[id][0] == ".Речь") {
+								if(acts[id][0] == ".Р РµС‡СЊ") {
 									ctx.fillStyle = "black";
 									ctx.strokeStyle = "black";
 									ctx.font = "" + Math.floor(s16) + "px Courier";
@@ -926,7 +925,7 @@ var	CINEMA	= {
 									else
 										text.push(acts[id][1]);
 									/*ctx.beginPath();
-									var	txt = prefix + "«" + acts[id][1] + "»"
+									var	txt = prefix + "В«" + acts[id][1] + "В»"
 									//ctx.fillText(txt, x - ctx.measureText(txt).width / 2, ty + text_y);
 									prefix = "";
 									//ctx.moveTo(x - ctx.measureText(txt).width / 2, ty + text_y); ctx.lineTo(x, y - 176 / z - 16 / z);
@@ -1096,7 +1095,7 @@ var	GUI_CIRCLE_ZED	=0x24CF;	// (Z)	Circled key Z
 var	GUI_DOT_PATTERN	=0x2800;	// :::	Braille pattern
 ////////////////////////////////
 ///////	Glazeur Execution Markup
-var	GEM_SECTION	=0x00A7;	//	В§	Section
+var	GEM_SECTION	=0x00A7;	//	Р’В§	Section
 var	GEM_MEASURE_SET	=0x20E3;	// [ ]	Set measure
 var	GEM_FADE_IN	=0x21E1;	// /|\	Fade in effect
 var	GEM_FADE_OUT	=0x21E3;	// \|/	Fade out effect
@@ -1250,7 +1249,7 @@ function parse_fraction(pks, pwc) {
 		if(pks.iNumerator > 0)
 			switch(wcode) {
 			case 0x25:	i /= 10;		// %
-			case 0x2030:	i /= 10;		// ‰
+			case 0x2030:	i /= 10;		// вЂ°
 			case 0x2031:	pks.iDenominator = i;
 					if(pks.iNumerating >= 0)
 						pks.iDenominating = i;
@@ -1877,21 +1876,21 @@ function parse_section(pk, iSection = -1, ppwc = 0) {
 			++ pwc.ptr;
 			continue;
 		}
-		// Здесь разбираются специфические синтаксические ремарки
-		if(nTabs == 1) {	// Первый уровень табуляционной вложенности
-			for(var id in pk.Actors)	// Сканируем список "актёров"/"явлений"
+		// Р—РґРµСЃСЊ СЂР°Р·Р±РёСЂР°СЋС‚СЃСЏ СЃРїРµС†РёС„РёС‡РµСЃРєРёРµ СЃРёРЅС‚Р°РєСЃРёС‡РµСЃРєРёРµ СЂРµРјР°СЂРєРё
+		if(nTabs == 1) {	// РџРµСЂРІС‹Р№ СѓСЂРѕРІРµРЅСЊ С‚Р°Р±СѓР»СЏС†РёРѕРЅРЅРѕР№ РІР»РѕР¶РµРЅРЅРѕСЃС‚Рё
+			for(var id in pk.Actors)	// РЎРєР°РЅРёСЂСѓРµРј СЃРїРёСЃРѕРє "Р°РєС‚С‘СЂРѕРІ"/"СЏРІР»РµРЅРёР№"
 				if(id == pwc.str.substr(0, id.length)) {
 					console.log("Actor - " + id);
 					pks.Actor = id;
 					pks.Member = "";
-					if(!(id in pk.Casting)) {	// Вводим "актёра"/"явление" в список кастинга
+					if(!(id in pk.Casting)) {	// Р’РІРѕРґРёРј "Р°РєС‚С‘СЂР°"/"СЏРІР»РµРЅРёРµ" РІ СЃРїРёСЃРѕРє РєР°СЃС‚РёРЅРіР°
 						pk.Actors[id].Casted(true);
 						pk.Casting.push(id);
 					}
-					if(id.substr(-1) == " ") {	// Если это "актёр", а не "явление"...
-						pks.Nick = pwc.str.substr(id.length).match(/[-A-Za-z_А-Яа-яЁё 0-9]+/)[0];
+					if(id.substr(-1) == " ") {	// Р•СЃР»Рё СЌС‚Рѕ "Р°РєС‚С‘СЂ", Р° РЅРµ "СЏРІР»РµРЅРёРµ"...
+						pks.Nick = pwc.str.substr(id.length).match(/[-A-Za-z_Рђ-РЇР°-СЏРЃС‘ 0-9]+/)[0];
 						console.log("Nick - " + pks.Nick);
-						if(pks.Nick) {		// Присваиваем уникальный псевдоним
+						if(pks.Nick) {		// РџСЂРёСЃРІР°РёРІР°РµРј СѓРЅРёРєР°Р»СЊРЅС‹Р№ РїСЃРµРІРґРѕРЅРёРј
 							if(!(pks.Nick in pk.Actors[id].troupe))
 								pk.Actors[id].troupe[pks.Nick] = {
 									role	:[],
@@ -1908,7 +1907,7 @@ function parse_section(pk, iSection = -1, ppwc = 0) {
 				} else
 					continue;
 		} else
-		if(nTabs == 2) {	// Второй уровень табуляционной вложенности
+		if(nTabs == 2) {	// Р’С‚РѕСЂРѕР№ СѓСЂРѕРІРµРЅСЊ С‚Р°Р±СѓР»СЏС†РёРѕРЅРЅРѕР№ РІР»РѕР¶РµРЅРЅРѕСЃС‚Рё
 			if(pks.iNumerator >= 0 && (pks.Actor in pk.Actors) && (pks.Member in pk.Actors[pks.Actor]) && (pks.iDenominator == 60 || pks.iDenominator == 3600))
 				pk.Actors[pks.Actor].role.push(["@", pks.iNumerating, pks.iNumerator]);
 			else
@@ -2382,7 +2381,7 @@ function main() {
 			"0x00002631:Trigram FX #1 - Lake		---",
 			"0x00002632:Trigram FX #2 - Fire		---",
 			"0x00002633:Trigram FX #3 - Thunder		---",
-			"0x0000270E:LowerВ bright",
+			"0x0000270E:LowerР’В bright",
 			"0x00000020:",
 			"0x00002630:Trigram FX #0 - Heaven		---",
 			"0x000025B2:Scroll up",
@@ -2542,7 +2541,7 @@ function main() {
 			continue;
 		}
 		if(tmp.charAt(i) == '\t') {
-			if((n & 7) < 7)
+			if((n &В 7) < 7)
 				tmp = tmp.substr(0, i) + "\u21E5" + tmp.substr(i ++);
 			else
 				tmp = tmp.substr(0, i) + "\u21E5" + tmp.substr(i ++ + 1);
@@ -2625,226 +2624,202 @@ function	Recording(nFrom, nEach, nFrames) {
 <tr valign=top style=display:none>
 <td colspan=2><pre id=leds></pre></td></tr>
 <tr><td>
-<!--1$	Реплики людей
-	КАМЕРА			Подготовим КАМЕРУ,
-		Участники	добавив в кадр
-			ПОГОДА	синтез погодных явлений
-			ЧЕЛОВЕК	и коллектив актёров
-	ПОГОДА			Настраиваем ПОГОДУ
-		Месяц=6-6	Месяц - Июнь
-		День=6-6	Девять часов дня
-		Солнце=90-90	Девяносто процентов света
-		Ветерка=1-5	Ветренность от 1 до 5
-		Облаков=1-3	Облачности от 1 до 3
-		Осадков=0-1	Осадков практически нет
-		Молний=0-0	Молний совсем нету
-	ЧЕЛОВЕК Вася Пупкин	В кадре - Вася Пупкин!
-		Акт		Описываем его действия...
-			Старт в центре
-			Вдаль
-			0:3-0:3
-			Прыгать
-			Шагать на восток
-			0:10-0:10
-			Бежать на запад
-1
-</textarea-->
 <textarea id='Scenario' rows=45 cols=80>
-1$	Реплики людей
-	КАМЕРА			Подготовим КАМЕРУ,
-		Участники	добавив в кадр
-			ПОГОДА	синтез погодных явлений
-			ЧЕЛОВЕК	и коллектив актёров
-	ПОГОДА			Настраиваем ПОГОДУ
-		Месяц=6-6	Месяц - Июнь
-		День=6-6	Девять часов дня
-		Солнце=90-90	Девяносто процентов света
-		Ветерка=1-5	Ветренность от 1 до 5
-		Облаков=1-3	Облачности от 1 до 3
-		Осадков=0-1	Осадков практически нет
-		Молний=0-0	Молний совсем нету
-		0:3-0:3		Ждём ровно 3 секунды...
-		Месяц=6-6
-		День=7-7
-		Солнце=90-90
-		Ветерка=1-5
-		Облаков=1-3
-		Осадков=0-1
-		Молний=0-0
-		0:3-0:3		Ждём ровно 3 секунды...
-		День=8-8	Теперь - 11 часов дня
-		Солнце=100-100	Солнце максимально ярко
-		0:1-0:1		А вот через 1 секунду...
-		День=9-9	Уже полдень
-		Ветерка=5-10	Ветер слегка усиливается
-		Облаков=10-15	Облаков несколько больше
-		Осадков=8-12	Возможны и осадки
-		0:4-0:4		Спустя 4 секунды...
-		День=10-10	Уже час дня
-		Ветерка=10-15	Продолжает усиливаться ветер
-		Облаков=20-25	Облаков заметно больше
-		Осадков=50-75	Начинаются осадки дождя
+1$	Р РµРїР»РёРєРё Р»СЋРґРµР№
+	РљРђРњР•Р Рђ			РџРѕРґРіРѕС‚РѕРІРёРј РљРђРњР•Р РЈ,
+		РЈС‡Р°СЃС‚РЅРёРєРё	РґРѕР±Р°РІРёРІ РІ РєР°РґСЂ
+			РџРћР“РћР”Рђ	СЃРёРЅС‚РµР· РїРѕРіРѕРґРЅС‹С… СЏРІР»РµРЅРёР№
+			Р§Р•Р›РћР’Р•Рљ	Рё РєРѕР»Р»РµРєС‚РёРІ Р°РєС‚С‘СЂРѕРІ
+	РџРћР“РћР”Рђ			РќР°СЃС‚СЂР°РёРІР°РµРј РџРћР“РћР”РЈ
+		РњРµСЃСЏС†=6-6	РњРµСЃСЏС† - РСЋРЅСЊ
+		Р”РµРЅСЊ=6-6	Р”РµРІСЏС‚СЊ С‡Р°СЃРѕРІ РґРЅСЏ
+		РЎРѕР»РЅС†Рµ=90-90	Р”РµРІСЏРЅРѕСЃС‚Рѕ РїСЂРѕС†РµРЅС‚РѕРІ СЃРІРµС‚Р°
+		Р’РµС‚РµСЂРєР°=1-5	Р’РµС‚СЂРµРЅРЅРѕСЃС‚СЊ РѕС‚ 1 РґРѕ 5
+		РћР±Р»Р°РєРѕРІ=1-3	РћР±Р»Р°С‡РЅРѕСЃС‚Рё РѕС‚ 1 РґРѕ 3
+		РћСЃР°РґРєРѕРІ=0-1	РћСЃР°РґРєРѕРІ РїСЂР°РєС‚РёС‡РµСЃРєРё РЅРµС‚
+		РњРѕР»РЅРёР№=0-0	РњРѕР»РЅРёР№ СЃРѕРІСЃРµРј РЅРµС‚Сѓ
+		0:3-0:3		Р–РґС‘Рј СЂРѕРІРЅРѕ 3 СЃРµРєСѓРЅРґС‹...
+		РњРµСЃСЏС†=6-6
+		Р”РµРЅСЊ=7-7
+		РЎРѕР»РЅС†Рµ=90-90
+		Р’РµС‚РµСЂРєР°=1-5
+		РћР±Р»Р°РєРѕРІ=1-3
+		РћСЃР°РґРєРѕРІ=0-1
+		РњРѕР»РЅРёР№=0-0
+		0:3-0:3		Р–РґС‘Рј СЂРѕРІРЅРѕ 3 СЃРµРєСѓРЅРґС‹...
+		Р”РµРЅСЊ=8-8	РўРµРїРµСЂСЊ - 11 С‡Р°СЃРѕРІ РґРЅСЏ
+		РЎРѕР»РЅС†Рµ=100-100	РЎРѕР»РЅС†Рµ РјР°РєСЃРёРјР°Р»СЊРЅРѕ СЏСЂРєРѕ
+		0:1-0:1		Рђ РІРѕС‚ С‡РµСЂРµР· 1 СЃРµРєСѓРЅРґСѓ...
+		Р”РµРЅСЊ=9-9	РЈР¶Рµ РїРѕР»РґРµРЅСЊ
+		Р’РµС‚РµСЂРєР°=5-10	Р’РµС‚РµСЂ СЃР»РµРіРєР° СѓСЃРёР»РёРІР°РµС‚СЃСЏ
+		РћР±Р»Р°РєРѕРІ=10-15	РћР±Р»Р°РєРѕРІ РЅРµСЃРєРѕР»СЊРєРѕ Р±РѕР»СЊС€Рµ
+		РћСЃР°РґРєРѕРІ=8-12	Р’РѕР·РјРѕР¶РЅС‹ Рё РѕСЃР°РґРєРё
+		0:4-0:4		РЎРїСѓСЃС‚СЏ 4 СЃРµРєСѓРЅРґС‹...
+		Р”РµРЅСЊ=10-10	РЈР¶Рµ С‡Р°СЃ РґРЅСЏ
+		Р’РµС‚РµСЂРєР°=10-15	РџСЂРѕРґРѕР»Р¶Р°РµС‚ СѓСЃРёР»РёРІР°С‚СЊСЃСЏ РІРµС‚РµСЂ
+		РћР±Р»Р°РєРѕРІ=20-25	РћР±Р»Р°РєРѕРІ Р·Р°РјРµС‚РЅРѕ Р±РѕР»СЊС€Рµ
+		РћСЃР°РґРєРѕРІ=50-75	РќР°С‡РёРЅР°СЋС‚СЃСЏ РѕСЃР°РґРєРё РґРѕР¶РґСЏ
 		0:4-0:4
-		День=11-11	
-		Ветерка=15-30
-		Облаков=30-40
-		Осадков=100-120
+		Р”РµРЅСЊ=11-11	
+		Р’РµС‚РµСЂРєР°=15-30
+		РћР±Р»Р°РєРѕРІ=30-40
+		РћСЃР°РґРєРѕРІ=100-120
 		0:11-0:11
-		День=12-12	Когда станет 3 часа дня
-		Солнце=75-80	Солнечный свет станет слабее
-		Ветерка=35-50	Из-за существенного ветра
-		Облаков=50-100	Значительной облачности
-		Молний=3-15 13	Со вспышками молний
+		Р”РµРЅСЊ=12-12	РљРѕРіРґР° СЃС‚Р°РЅРµС‚ 3 С‡Р°СЃР° РґРЅСЏ
+		РЎРѕР»РЅС†Рµ=75-80	РЎРѕР»РЅРµС‡РЅС‹Р№ СЃРІРµС‚ СЃС‚Р°РЅРµС‚ СЃР»Р°Р±РµРµ
+		Р’РµС‚РµСЂРєР°=35-50	РР·-Р·Р° СЃСѓС‰РµСЃС‚РІРµРЅРЅРѕРіРѕ РІРµС‚СЂР°
+		РћР±Р»Р°РєРѕРІ=50-100	Р—РЅР°С‡РёС‚РµР»СЊРЅРѕР№ РѕР±Р»Р°С‡РЅРѕСЃС‚Рё
+		РњРѕР»РЅРёР№=3-15 13	РЎРѕ РІСЃРїС‹С€РєР°РјРё РјРѕР»РЅРёР№
 		0:7-0:7
-		День=13-13
-		Солнце=50-65
+		Р”РµРЅСЊ=13-13
+		РЎРѕР»РЅС†Рµ=50-65
 		0:20-0:20
-		День=14-14
-		Солнце=80-83
-		Ветерка=3-9
-		Облаков=3-9
-		Молний=0-0
-		Осадков=0-1
+		Р”РµРЅСЊ=14-14
+		РЎРѕР»РЅС†Рµ=80-83
+		Р’РµС‚РµСЂРєР°=3-9
+		РћР±Р»Р°РєРѕРІ=3-9
+		РњРѕР»РЅРёР№=0-0
+		РћСЃР°РґРєРѕРІ=0-1
 		0:5-0:5
-		День=15-15
+		Р”РµРЅСЊ=15-15
 		0:5-0:5
-		День=16-16
-		Солнце=100-100
-Здесь описываем роли двух актёров
-	ЧЕЛОВЕК Вася Пупкин	В кадре - Вася Пупкин!
-		Акт		Описываем его действия...
-			Старт в конце
-			Бежать на восток
-			Бежать на восток
-			Вдаль
-			Вдаль
+		Р”РµРЅСЊ=16-16
+		РЎРѕР»РЅС†Рµ=100-100
+Р—РґРµСЃСЊ РѕРїРёСЃС‹РІР°РµРј СЂРѕР»Рё РґРІСѓС… Р°РєС‚С‘СЂРѕРІ
+	Р§Р•Р›РћР’Р•Рљ Р’Р°СЃСЏ РџСѓРїРєРёРЅ	Р’ РєР°РґСЂРµ - Р’Р°СЃСЏ РџСѓРїРєРёРЅ!
+		РђРєС‚		РћРїРёСЃС‹РІР°РµРј РµРіРѕ РґРµР№СЃС‚РІРёСЏ...
+			РЎС‚Р°СЂС‚ РІ РєРѕРЅС†Рµ
+			Р‘РµР¶Р°С‚СЊ РЅР° РІРѕСЃС‚РѕРє
+			Р‘РµР¶Р°С‚СЊ РЅР° РІРѕСЃС‚РѕРє
+			Р’РґР°Р»СЊ
+			Р’РґР°Р»СЊ
 			0:3-0:3
-		Акт
-			Бежать в центр
-			Вблизь
+		РђРєС‚
+			Р‘РµР¶Р°С‚СЊ РІ С†РµРЅС‚СЂ
+			Р’Р±Р»РёР·СЊ
 			0:3-0:3
-		Акт
-			Прыгать
-			Шагать к John Smith
-			Махать
-			Вблизь
-		Акт
-			Махать
-		Речь		Описываем его реплики...
-			Привет!
+		РђРєС‚
+			РџСЂС‹РіР°С‚СЊ
+			РЁР°РіР°С‚СЊ Рє John Smith
+			РњР°С…Р°С‚СЊ
+			Р’Р±Р»РёР·СЊ
+		РђРєС‚
+			РњР°С…Р°С‚СЊ
+		Р РµС‡СЊ		РћРїРёСЃС‹РІР°РµРј РµРіРѕ СЂРµРїР»РёРєРё...
+			РџСЂРёРІРµС‚!
 			:)
 			0:02-0:02
-		Акт
-			Прыгать
-			Шагать
-			Махать
-			Вблизь
+		РђРєС‚
+			РџСЂС‹РіР°С‚СЊ
+			РЁР°РіР°С‚СЊ
+			РњР°С…Р°С‚СЊ
+			Р’Р±Р»РёР·СЊ
 			0:01-0:01
-		Акт
-			Прыгать
-		Речь
-			Привет!
-			Сегодня прекрасная погода!
+		РђРєС‚
+			РџСЂС‹РіР°С‚СЊ
+		Р РµС‡СЊ
+			РџСЂРёРІРµС‚!
+			РЎРµРіРѕРґРЅСЏ РїСЂРµРєСЂР°СЃРЅР°СЏ РїРѕРіРѕРґР°!
 			:D
-		Речь
+		Р РµС‡СЊ
 			:)
 			0:5-0:5
-			Прикольненько!!!
+			РџСЂРёРєРѕР»СЊРЅРµРЅСЊРєРѕ!!!
 			:p
-		Акт
-			Влево
-			Махать
+		РђРєС‚
+			Р’Р»РµРІРѕ
+			РњР°С…Р°С‚СЊ
 			0:10-0:10
-		Речь
-			Интересно, его смартфон не
-			боится ли грозовых разрядов???
+		Р РµС‡СЊ
+			РРЅС‚РµСЂРµСЃРЅРѕ, РµРіРѕ СЃРјР°СЂС‚С„РѕРЅ РЅРµ
+			Р±РѕРёС‚СЃСЏ Р»Рё РіСЂРѕР·РѕРІС‹С… СЂР°Р·СЂСЏРґРѕРІ???
 			:D
-		Акт
-			Прыгать
-			Махать
+		РђРєС‚
+			РџСЂС‹РіР°С‚СЊ
+			РњР°С…Р°С‚СЊ
 			0:04-0:04
-		Речь= 
-		Акт
-			Прыгать
-			Махать
-			Шагать до John Smith
+		Р РµС‡СЊ= 
+		РђРєС‚
+			РџСЂС‹РіР°С‚СЊ
+			РњР°С…Р°С‚СЊ
+			РЁР°РіР°С‚СЊ РґРѕ John Smith
 			0:15-0:15
-		Акт
-			Прыгать
+		РђРєС‚
+			РџСЂС‹РіР°С‚СЊ
 			0:14-0:14
-		Акт
-			Бежать к центру
+		РђРєС‚
+			Р‘РµР¶Р°С‚СЊ Рє С†РµРЅС‚СЂСѓ
 			0:5-0:5
-		Речь
-			Автор идеи и программист
-			©2018 Аликберов
-		Акт
-			Прыгать
-			Махать
+		Р РµС‡СЊ
+			РђРІС‚РѕСЂ РёРґРµРё Рё РїСЂРѕРіСЂР°РјРјРёСЃС‚
+			В©2018 РђР»РёРєР±РµСЂРѕРІ
+		РђРєС‚
+			РџСЂС‹РіР°С‚СЊ
+			РњР°С…Р°С‚СЊ
 			0:8-0:8
-	ЧЕЛОВЕК John Smith
-		Акт
-			Старт в начале
-			Вдаль
+	Р§Р•Р›РћР’Р•Рљ John Smith
+		РђРєС‚
+			РЎС‚Р°СЂС‚ РІ РЅР°С‡Р°Р»Рµ
+			Р’РґР°Р»СЊ
 			0:3-0:3
-			Старт в начале
-			Вдаль
-			Вдаль
-			Вдаль
+			РЎС‚Р°СЂС‚ РІ РЅР°С‡Р°Р»Рµ
+			Р’РґР°Р»СЊ
+			Р’РґР°Р»СЊ
+			Р’РґР°Р»СЊ
 			0:3-0:3
-			Шагать к центру
-			Прыгать
-			Вблизь
-		Речь
-			Привет!
+			РЁР°РіР°С‚СЊ Рє С†РµРЅС‚СЂСѓ
+			РџСЂС‹РіР°С‚СЊ
+			Р’Р±Р»РёР·СЊ
+		Р РµС‡СЊ
+			РџСЂРёРІРµС‚!
 			:)
 			0:03-0:03
-		Акт
-			Шагать
-			Влево
-		Речь
-			Не думаю, что стоило выходить
+		РђРєС‚
+			РЁР°РіР°С‚СЊ
+			Р’Р»РµРІРѕ
+		Р РµС‡СЊ
+			РќРµ РґСѓРјР°СЋ, С‡С‚Рѕ СЃС‚РѕРёР»Рѕ РІС‹С…РѕРґРёС‚СЊ
 			:/
 			0:5-0:5
-		Акт
-			Махать
-		Речь
-			Вау!!!
+		РђРєС‚
+			РњР°С…Р°С‚СЊ
+		Р РµС‡СЊ
+			Р’Р°Сѓ!!!
 			:o
 			0:3-0:3
-			Пойду-ка я домой!
-			Не хватало ещё промочить
-			новенький смартфон!!!
+			РџРѕР№РґСѓ-РєР° СЏ РґРѕРјРѕР№!
+			РќРµ С…РІР°С‚Р°Р»Рѕ РµС‰С‘ РїСЂРѕРјРѕС‡РёС‚СЊ
+			РЅРѕРІРµРЅСЊРєРёР№ СЃРјР°СЂС‚С„РѕРЅ!!!
 			:(
 			0:5-0:5
-		Акт
-			Прыгать
-			Бежать на запад
-			Махать
+		РђРєС‚
+			РџСЂС‹РіР°С‚СЊ
+			Р‘РµР¶Р°С‚СЊ РЅР° Р·Р°РїР°Рґ
+			РњР°С…Р°С‚СЊ
 			0:11-0:11
-		Акт
-			Бежать на восток
-			Прыгать
+		РђРєС‚
+			Р‘РµР¶Р°С‚СЊ РЅР° РІРѕСЃС‚РѕРє
+			РџСЂС‹РіР°С‚СЊ
 			0:15-0:15
-		Речь
-			Подготовленно
-			специально
-			на 1 апреля...
-		Акт
-			Махать
+		Р РµС‡СЊ
+			РџРѕРґРіРѕС‚РѕРІР»РµРЅРЅРѕ
+			СЃРїРµС†РёР°Р»СЊРЅРѕ
+			РЅР° 1 Р°РїСЂРµР»СЏ...
+		РђРєС‚
+			РњР°С…Р°С‚СЊ
 			0:4-0:4
-		Акт
-			Махать
-			Прыгать
-			Шагать к началу
+		РђРєС‚
+			РњР°С…Р°С‚СЊ
+			РџСЂС‹РіР°С‚СЊ
+			РЁР°РіР°С‚СЊ Рє РЅР°С‡Р°Р»Сѓ
 			0:4-0:4
-		Речь
-			Источник:
+		Р РµС‡СЊ
+			РСЃС‚РѕС‡РЅРёРє:
 			http://github.com/Alikberov/Fantaseur</textarea></td>
 <td valign='top'><canvas id='Movie' width='640' height='480'></canvas>
 <table id='Brailles'>
 <tr><th id='Process'>Cartoon</th></tr>
-<tr><td><span id='Capture'>From<input id='Beginning' type='number' min='0' max='9999' value='3' /> Length<input id='Duration' type='number' min='1' max='199' value='64' /> Each<input id='Each' type='number' min='1' max='25' value='12' />
+<tr><td><span id='Capture'>From<input id='Beginning' type='number' min='0' max='9999' value='3' />В Length<input id='Duration' type='number' min='1' max='199' value='64' /> Each<input id='Each' type='number' min='1' max='25' value='12' />
 <button onclick='Recording(document.getElementById("Beginning").value, document.getElementById("Each").value, document.getElementById("Duration").value)'>Generate GIF</button></span>
 <progress id='Progress' style='display:none; width:480px'></progress></td></tr>
 <tr><td><a id='Uploader' download='Fantaseur.gif' href='' target='blank' alt='Click for save'><img id='cartoon' width='480' height='360' /></a></td></tr></table>
