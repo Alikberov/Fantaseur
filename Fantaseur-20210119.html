@@ -1609,7 +1609,7 @@ function main(cnv, ctx) {
 	var	text = ["Василий Пупкин", "(((((((Люблю прыгать", "целый день!)))))))", ":-D"];
 	if(!cnv) {
 		Storage = window.localStorage;
-		initMusic();
+		setTimeout(initMusic, 9876);
 		chatArea = document.getElementById("ChatArea"),
 		chatAreas = document.getElementById("ChatAreas"),
 		cnv = document.getElementsByTagName("canvas")[0],
